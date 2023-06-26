@@ -31,11 +31,11 @@
             "patterns": [
                 {
                     "name": "constant.numeric.simtalkv2",
-                    "match": "-?[0-9]+"
+                    "match": "-?(([0-9]+\\.)?[0-9]+)(e[0-9]+)?"
                 },
                 {
                     "name": "constant.language.simtalkv2",
-                    "match": "\\b((?i)true|(?i)false|(?i)void)\\b"
+                    "match": "\\b((?i)true|(?i)false|(?i)void|(?i)pi)\\b"
                 }
             ]
         },
@@ -43,7 +43,7 @@
             "patterns": [
                 {
                     "name": "keyword.control.simtalkv2",
-                    "match": "\\b(if|when|then|else|elseif|while|switch|case|end|for|to|downto|next|continue|exitloop|repeat|until|return)\\b"
+                    "match": "\\b(if|when|then|else|elseif|while|switch|case|end|for|to|downto|next|continue|exitloop|repeat|until|return|result|wait|waituntil|stopuntil)\\b"
                 },
                 {
                     "name": "keyword.operator.simtalkv2",
@@ -51,7 +51,7 @@
                 },
                 {
                     "name": "keyword.other.simtalkv2",
-                    "match": "\\b(var|param|self)\\b"
+                    "match": "\\b(var|param|self|@|basis|current|\\?|root|RootFolder)\\b"
                 }
             ]
 		},
