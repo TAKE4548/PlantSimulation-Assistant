@@ -1,0 +1,25 @@
+{
+  "name": "simtalk-syntax",
+  "displayName": "simtalk_syntax",
+  "description": "simtalkV2 Syntax Highlight",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.79.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "simtalkv2",
+      "aliases": ["simtalkv2", "simtalkv2"],
+      "extensions": [".simtalk"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "simtalkv2",
+      "scopeName": "source.simtalk",
+      "path": "./syntaxes/simtalkv2.tmLanguage.json"
+    }]
+  }
+}

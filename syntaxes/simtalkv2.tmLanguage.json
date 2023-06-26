@@ -1,0 +1,87 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "simtalkv2",
+	"patterns": [
+        { "include": "#comments" },
+        { "include": "#types" },
+        { "include": "#constants" },
+		{ "include": "#keywords" },
+        { "include": "#variables" },
+		{ "include": "#strings" }
+	],
+	"repository": {
+        "types": {
+            "patterns": [
+                {
+                    "name": "storage.type.simtalkv2",
+                    "match": "\\b((?i)Acceleration|(?i)Any|(?i)Array|(?i)Boolean|(?i)Date|(?i)DateTime|(?i)Integer|(?i)Length|(?i)List|(?i)Method|(?i)Money|(?i)Object|(?i)Queue|(?i)Real|(?i)Speed|(?i)Stack|(?i)String|(?i)Table|(?i)Time|(?i)Weight)\\b"
+                }
+            ]
+        },
+        "variables": {
+            "patterns": [
+                {
+                    "name": "variable.parameter.simtalkv2",
+                    "match": "\\b[a-zA-Z]+[0-9a-zA-Z]*\\b"
+                },
+                {
+                    "name": "keyword.other.simtalkv2",
+                    "match": "\\b(var|param|self)\\b"
+                }
+            ]
+        },
+        "constants": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.simtalkv2",
+                    "match": "-?[0-9]+"
+                },
+                {
+                    "name": "constant.language.simtalkv2",
+                    "match": "\\b((?i)true|(?i)false|(?i)void)\\b"
+                }
+            ]
+        },
+		"keywords": {
+            "patterns": [
+                {
+                    "name": "keyword.control.simtalkv2",
+                    "match": "\\b(if|when|then|else|elseif|while|switch|case|end|for|to|next|continue|exitloop|repeat|until|return)\\b"
+                },
+                {
+                    "name": "keyword.operator.simtalkv2",
+                    "match": "(:=|\\+|\\+=|-|-=|\\*|\\*=|\\/|div|mod|=|\\/=|\\<|\\<=|\\>|\\>=|~=|\\<~=|\\>~=|and|or|not)"
+                }
+            ]
+		},
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.block.simtalkv2",
+                    "begin": "\\/\\*",
+                    "end": "\\*\\/"
+                },
+                {
+                    "name": "comment.line.double-slash.simtalkv2",
+                    "match": "\\/\\/.*"
+                },
+                {
+                    "name": "comment.line.double-dash.simtalkv2",
+                    "match": "--.*"
+                }
+            ]
+        },
+		"strings": {
+			"name": "string.quoted.double.simtalkv2",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.simtalkv2",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.simtalk"
+}
