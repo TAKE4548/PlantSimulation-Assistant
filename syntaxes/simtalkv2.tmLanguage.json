@@ -6,6 +6,7 @@
         { "include": "#types" },
         { "include": "#constants" },
 		{ "include": "#keywords" },
+        { "include": "#functions" },
         { "include": "#variables" },
 		{ "include": "#strings" }
 	],
@@ -23,10 +24,6 @@
                 {
                     "name": "variable.parameter.simtalkv2",
                     "match": "\\b[a-zA-Z]+[0-9a-zA-Z]*\\b"
-                },
-                {
-                    "name": "keyword.other.simtalkv2",
-                    "match": "\\b(var|param|self)\\b"
                 }
             ]
         },
@@ -51,6 +48,10 @@
                 {
                     "name": "keyword.operator.simtalkv2",
                     "match": "(:=|\\+|\\+=|-|-=|\\*|\\*=|\\/|div|mod|=|\\/=|\\<|\\<=|\\>|\\>=|~=|\\<~=|\\>~=|and|or|not)"
+                },
+                {
+                    "name": "keyword.other.simtalkv2",
+                    "match": "\\b(var|param|self)\\b"
                 }
             ]
 		},
@@ -81,7 +82,189 @@
 					"match": "\\\\."
 				}
 			]
-		}
+		},
+        "functions": {
+            "patterns": [
+                { "include": "#operating_system" },
+                { "include": "#mathematical" },
+                { "include": "#manipulating_individual_bits" },
+                { "include": "#manipulating_strings" },
+                { "include": "#manipulating_date_and_time" },
+                { "include": "#input" },
+                { "include": "#output" },
+                { "include": "#converting_data_types" },
+                { "include": "#debugging_the_model" },
+                { "include": "#other" }
+            ],
+            "repository": {
+                "operating_system": {
+                    "patterns": [
+                        {
+                            "name": "support.function.simtalkv2",
+                            "match": "\\b((?i)availableMemory|(?i)browseForFolder|(?i)copyFile|(?i)copyObjectsToClipboard|(?i)copyTextToClipboard|(?i)getCurrentDirectory|(?i)getEnv|(?i)getFilesOfFolder|(?i)getRegistry|(?i)getTextFromClipboard|(?i)selectFileForOpen|(?i)selectFileForSave|(?i)setCodePage|(?i)setCurrentDirectory|(?i)setEnv|(?i)shGetFolderPath|(?i)sleep|(?i)startExtProc|(?i)system)\\b"
+                        }
+                    ]
+                },
+                "mathematical": {
+                    "patterns": [
+                        { "include": "#basic" },
+                        { "include": "#numeric_value" },
+                        { "include": "#trigonometric" },
+                        { "include": "#distribution" }
+                    ],
+                    "repository": {
+                        "basic": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match":"\\b((?i)abs|(?i)beta|(?i)betai|(?i)exp|(?i)gamma|(?i)log|(?i)log10|(?i)pow|(?i)sqrt)\\b"
+                                }
+                            ]
+                        },
+                        "numeric_value": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match": "\\b((?i)ceil|(?i)floor|(?i)max|(?i)min|(?i)round)\\b"
+                                }
+                            ]
+                        },
+                        "trigonometric": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match": "\\b((?i)acos|(?i)asin|(?i)atan|(?i)atan2|(?i)cos|(?i)sin|(?i)tan)\\b"
+                                }
+                            ]
+                        },
+                        "distribution": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match": "\\b((?i)z_beta|(?i)z_binominal|(?i)z_cauchy|(?i)z_cemp|(?i)z_demp|(?i)z_emp|(?i)z_erlang|(?i)z_frechet|(?i)z_gamma|(?i)z_geom|(?i)z_gumbel|(?i)z_hypgeom|(?i)z_laplace|(?i)z_logistic|(?i)z_loglogistic|(?i)z_lognorm|(?i)z_negexp|(?i)z_normal|(?i)z_paralogistic|(?i)z_pareto|(?i)z_poisson|(?i)z_triangle|(?i)z_uniform|(?i)z_weibull)\\b"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "manipulating_individual_bits": {
+                    "patterns": [
+                        {
+                            "name": "support.function.simtalkv2",
+                            "match": "\\b((?i)bitand|(?i)bitor|(?i)bitset|(?i)bitshift|(?i)bittest|(?i)bitxor)\\b"
+                        }
+                    ]
+                },
+                "manipulating_strings": {
+                    "patterns": [
+                        {
+                            "name": "support.function.simtalkv2",
+                            "match": "\\b((?i)ascii|(?i)chr|(?i)copy|(?i)incl|(?i)omit|(?i)pos|(?i)regex_replace|(?i)regex_search|(?i)splitstring|(?i)splitstringtonum|(?i)strlen|(?i)strrcopy|(?i)strrpos|(?i)tolower|(?i)toupper|(?i)trim)\\b"
+                        }
+                    ]
+                },
+                "manipulating_date_and_time": {
+                    "patterns": [
+                        {
+                            "name": "support.function.simtalkv2",
+                            "match": "\\b((?i)calenderweek|(?i)day|(?i)dayofweek|(?i)dayofyear|(?i)getdate|(?i)month|(?i)setdaylightsavingtime|(?i)sysdate|(?i)timeofday|(?i)week|(?i)year)\\b"
+                        }
+                    ]
+                },
+                "input": {
+                    "patterns": [
+                        {
+                            "name": "support.function.simtalkv2",
+                            "match": "\\b((?i)prompt|(?i)promptlist1|(?i)promptlistn)\\b"
+                        }
+                    ]
+                },
+                "output": {
+                    "patterns": [
+                        {
+                            "name": "support.function.simtalkv2",
+                            "match": "\\b((?i)beep|(?i)bell|(?i)getunit|(?i)infobox|(?i)print|(?i)promptMessage)\\b"
+                        }
+                    ]
+                },
+                "converting_data_types": {
+                    "patterns": [
+                        { "include": "#numerical_value" },
+                        { "include": "#physical_data_type" },
+                        { "include": "#physical_data_type_with_units_into_data_type_without_units" },
+                        { "include": "#values_without_units_into_physical_data_types_with_units" },
+                        { "include": "#references" },
+                        { "include": "#times_and_dates" }
+                    ],
+                    "repository": {
+                        "numerical_value": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match": "\\b((?i)bool_to_num|(?i)bool_to_str|(?i)num_to_bool|(?i)num_to_hex|(?i)num_to_str|(?i)str_to_bool|(?i)str_to_num|(?i)time_to_str|(?i)to_str)\\b"
+                                }
+                            ]
+                        },
+                        "physical_data_type": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match": "\\b((?i)str_to_acceleration|(?i)str_to_length|(?i)str_to_speed|(?i)str_to_weight)\\b"
+                                }
+                            ]
+                        },
+                        "physical_data_type_with_units_into_data_type_without_units": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match": "\\b((?i)acceleration_to_num|(?i)length_to_num|(?i)speed_to_num|(?i)time_to_num|(?i)weight_to_num)\\b"
+                                }
+                            ]
+                        },
+                        "values_without_units_into_physical_data_types_with_units": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match": "\\b((?i)num_to_acceleration|(?i)num_to_length|(?i)num_to_speed|(?i)num_to_time|(?i)num_to_weight)\\b"
+                                }
+                            ]
+                        },
+                        "references": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match": "\\b((?i)str_to_method|(?i)str_to_obj)\\b"
+                                }
+                            ]
+                        },
+                        "times_and_dates": {
+                            "patterns": [
+                                {
+                                    "name": "support.function.simtalkv2",
+                                    "match": "\\b((?i)datetime_to_str|(?i)isvaliddatestring|(?i)isvaliddatetimestring|(?i)isvalidtimestring|(?i)str_to_date|(?i)str_to_datetime|(?i)str_to_time|(?i)timerepresenation)\\b"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "debugging_the_model": {
+                    "patterns": [
+                        {
+                            "name": "support.function.simtalkv2",
+                            "match": "\\b((?i)clearAllBreakpoints|(?i)debug|(?i)deleteSuspendedMethods|(?i)getErrorStop|(?i)ignoreBreakpoints|(?i)setErrorHandler|(?i)setErrorStop|(?i)setMaxDepthOfCalls|(?i)setMaxNumberOfCallChains|(?i)setMaxNumberOfSamples|(?i)setMaxSuspendedMethods)\\b"
+                        }
+                    ]
+                },
+                "other": {
+                    "patterns": [
+                        {
+                            "name": "support.function.simtalkv2",
+                            "match": "\\b((?i)animation|(?i)animMU|(?i)animIcon|(?i)applicationHome|(?i)applicationVersion|(?i)callEvery|(?i)checkForLicense|(?i)checkID|(?i)createLicenseFile|(?i)clearConsole|(?i)clearLogFile|(?i)close3D|(?i)closeAllWindows|(?i)closeConsole|(?i)closeHTMLWindow|(?i)closeModel|(?i)computeSHA1Hash|(?i)computeSHA3Hash|(?i)connectAutomatically|(?i)currentEventCtl|(?i)deleteAllDebugExpressions|(?i)enableFullScreenMode|(?i)execute|(?i)executeSilent|(?i)existsFile|(?i)existsMethod|(?i)existsObject|(?i)exitApplication|(?i)F3DactivateCameraMark|(?i)F3DconfigureView|(?i)F3DFinishVideo|(?i)F3DPauseVideo|(?i)F3DRecordVideo|(?i)getCallStack|(?i)getCommandConveyorArg|(?i)getEpsilon|(?i)getFileModificationDateTime|(?i)getLibraryFiles|(?i)getLibraryVersionFromFile|(?i)getLogFile|(?i)getSeedTable|(?i)hideBBL|(?i)HTMLHelp|(?i)is3Dopen|(?i)isArray|(?i)isComputerAccessPermitted|(?i)isSet|(?i)keepWindowsAlwaysOnTop|(?i)language|(?i)licenseName|(?i)loadModel|(?i)makePathRelative|(?i)makeRGBValue|(?i)messageBox|(?i)modelFile|(?i)numOfLimitedObjects|(?i)open3D|(?i)openColorSelectBox|(?i)openConsole|(?i)openHTMLBrowser|(?i)openHTMLWindow|(?i)openObjectSelectBox|(?i)portNumber|(?i)processTime|(?i)profiler|(?i)putValuesIntoTable|(?i)resetInitBox|(?i)resetProfile|(?i)resetRandomNumberStream|(?i)saveModel|(?i)saveProfile|(?i)sendSMTPMail|(?i)setAnimationRefreshRate|(?i)setAntitheticRandomNumbers|(?i)setConsoleFilter|(?i)setEpsilon setInfiniteLoopDetectionTimeout|(?i)setMUTraceRouteMethod|(?i)setRandomSeedCounter|(?i)setSeedTable|(?i)showStatisticsReport|(?i)strHash|(?i)throwRuntimeError|(?i)updateGUI|(?i)userInterfaceLanguage)\\b"
+                        }
+                    ]
+                }
+            }
+        }
 	},
 	"scopeName": "source.simtalk"
 }
