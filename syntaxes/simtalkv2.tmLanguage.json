@@ -43,7 +43,7 @@
             "patterns": [
                 {
                     "name": "keyword.control.simtalkv2",
-                    "match": "\\b(if|when|then|else|elseif|while|switch|case|end|for|to|next|continue|exitloop|repeat|until|return)\\b"
+                    "match": "\\b(if|when|then|else|elseif|while|switch|case|end|for|to|downto|next|continue|exitloop|repeat|until|return)\\b"
                 },
                 {
                     "name": "keyword.operator.simtalkv2",

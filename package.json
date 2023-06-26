@@ -20,6 +20,11 @@
       "language": "simtalkv2",
       "scopeName": "source.simtalk",
       "path": "./syntaxes/simtalkv2.tmLanguage.json"
+    }],
+    "snippets": [{
+      "language": "simtalkv2",
+      "scopeName": "source.simtalk",
+      "path": "./snippets/simtalkv2.snippet.json"
     }]
   }
 }

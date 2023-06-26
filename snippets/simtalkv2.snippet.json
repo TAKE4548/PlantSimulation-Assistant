@@ -1,0 +1,90 @@
+{
+    "when-then-else": {
+        "prefix": "whe",
+        "body": "when ${1:condition} then ${2:expression1} else ${3:expression2}",
+        "description": "3項演算"
+    },
+    "if-end": {
+        "prefix": "if",
+        "body": [
+            "if ${1:condition}",
+            "\t${2:statements}",
+            "end"
+        ],
+        "description": "if文"
+    },
+    "if-else-end": {
+        "prefix": ["if", "ifel"],
+        "body": [
+            "if ${1:condition}",
+            "\t${2:statements}",
+            "else",
+            "\t${3:statements}",
+            "end"
+        ],
+        "description": "if-else文"
+    },
+    "if-elif-end": {
+        "prefix": ["if", "ifel", "ifelif"],
+        "body": [
+            "if ${1:condition}",
+            "\t${2:statements}",
+            "elseif ${3:condition}",
+            "\t${4:statements}",
+            "else",
+            "\t${5:statements}",
+            "end"
+        ],
+        "description": "if-elif文"
+    },
+    "switch": {
+        "prefix": "sw",
+        "body": [
+            "switch ${1:expression}",
+            "\tcase ${2:condition}",
+            "\t\t${3:statements}",
+            "\tcase ${4:condition}",
+            "\t\t${5:statements}",
+            "\telse",
+            "\t\t${6:statements}",
+            "end"
+        ],
+        "description": "switch文"
+    },
+    "for": {
+        "prefix": "for",
+        "body": [
+            "for var ${1:counter} := ${2:lower} to ${3:upper}",
+            "\t${4:statements}",
+            "next"
+        ],
+        "description": "for文"
+    },
+    "for-down": {
+        "prefix": "fordown",
+        "body": [
+            "for var ${1:counter} := ${2:upper} downto ${3:lower}",
+            "\t${4:statements}",
+            "next"
+        ],
+        "description": "逆順for文"
+    },
+    "while": {
+        "prefix": "whi",
+        "body": [
+            "while ${1:condition}",
+            "\t${2:statements}",
+            "end"
+        ],
+        "description": "前置判定ループ文"
+    },
+    "repeat": {
+        "prefix": "rep",
+        "body": [
+            "repeat",
+            "\t${1:statements}",
+            "until ${2:condition}"
+        ],
+        "description": "後置判定ループ文"
+    }
+}
