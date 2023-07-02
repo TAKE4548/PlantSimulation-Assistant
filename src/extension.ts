@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { PlantSimLoader } from "./executeReload";
+import { createProject } from "./createProject";
 import { updateReloadMethods } from "./updateReloadMethods";
 
 // This method is called when your extension is activated
