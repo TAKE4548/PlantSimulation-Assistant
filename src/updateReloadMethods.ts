@@ -13,7 +13,14 @@ export function updateReloadMethods() {
         throw new URIError('Projectにsrcディレクトリがありません`Create Projectを実行して作成してください');
       }
       const FILE_NAME = SPLITTED_PATH.at(-1)?.split('.').at(0);
-      // 更新用ファイルが残ってたら一緒に引っかかるので、ここで省く
+      // 更新かけなくていい特殊なメソッドはここで省く
+      switch (FILE_NAME?.toLowerCase()) {
+        case UPDATE_FILE.split('.').at(0)?.toLowerCase():  // reloadメソッドそのもの
+        case 'autoexec':  // 起動時自動実行メソッド
+          continue;
+        default:
+          break;
+      }
       if (FILE_NAME === UPDATE_FILE.split('.').at(0)) { continue; }
       // ファイルの階層に基づいて、loadを実行するメソッドまでのパスを形成
       writeText += '.' + SPLITTED_PATH.slice(1, -1).join('.') + '.';
