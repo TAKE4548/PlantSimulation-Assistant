@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as vscode from 'vscode';
 
 export function updateReloadMethods() {
@@ -23,8 +24,19 @@ export function updateReloadMethods() {
       }
       if (FILE_NAME === UPDATE_FILE.split('.').at(0)) { continue; }
       // ファイルの階層に基づいて、loadを実行するメソッドまでのパスを形成
-      writeText += '.' + SPLITTED_PATH.slice(1, -1).join('.') + '.';
-      writeText += '&' + FILE_NAME + '.load(\"' + val.fsPath + '\")\n';
+      const TAIL_DIR_NAME = SPLITTED_PATH.at(-2);
+      if (TAIL_DIR_NAME === undefined) {
+        throw new Error('不正なパス');
+      }
+      if (TAIL_DIR_NAME === FILE_NAME) {
+        writeText += '.' + SPLITTED_PATH.slice(1, -2).join('.') + '.&';
+      } else if (isMethodInMethod(val)) {
+        writeText += '.' + SPLITTED_PATH.slice(1, -2).join('.') + '.';
+        writeText += '&' + SPLITTED_PATH.at(-2) + '.';
+      } else {
+        writeText += '.' + SPLITTED_PATH.slice(1, -1).join('.') + '.&';
+      }
+      writeText += FILE_NAME + '.load(\"' + val.fsPath + '\")\n';
       console.log(writeText);
     }
     // ワークスペースからのフルパスが必要なので、書き込むファイルまで連結する
@@ -39,3 +51,12 @@ export function updateReloadMethods() {
   });
   vscode.window.showInformationMessage("更新完了");
 };
+
+function isMethodInMethod(uri: vscode.Uri): boolean {
+  var parentPath = vscode.Uri.joinPath(uri, "..").path;
+  var pathElems = parentPath.split('/');
+  var tailDir = pathElems.at(-1);
+  if (tailDir === undefined) {throw new Error("不正なパス");}
+  pathElems.push(tailDir);
+  return fs.existsSync(pathElems.slice(1).join('/') + '.simtalk');
+}
