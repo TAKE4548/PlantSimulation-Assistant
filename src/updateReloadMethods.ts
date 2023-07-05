@@ -1,6 +1,10 @@
 import * as fs from 'fs';
 import * as vscode from 'vscode';
 
+/**
+ * 全メソッド更新用のメソッドのソースファイルを生成するコマンドの本体
+ * 
+ */
 export function updateReloadMethods() {
   let files = vscode.workspace.findFiles("src/**/*.simtalk");
   const UPDATE_FILE = "reload_methods.simtalk";
@@ -52,6 +56,12 @@ export function updateReloadMethods() {
   vscode.window.showInformationMessage("更新完了");
 };
 
+/**
+ * ファイルURIを見て、メソッド内のユーザ定義メソッドであるかを判別する
+ *
+ * @param uri 判別したいファイルのURI
+ * @returns 判別結果.true:メソッド内メソッド/false:メソッド内メソッドではない
+ */
 function isMethodInMethod(uri: vscode.Uri): boolean {
   var parentPath = vscode.Uri.joinPath(uri, "..").path;
   var pathElems = parentPath.split('/');

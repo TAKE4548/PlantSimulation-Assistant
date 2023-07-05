@@ -18,6 +18,10 @@
         "title": "Update Reload Method"
       },
       {
+        "command": "plantsim-assistant.executeReload",
+        "title": "Execute Reload"
+      },
+      {
         "command": "plantsim-assistant.createProject",
         "title": "Create initialized assistant project"
       }
