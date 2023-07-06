@@ -23,7 +23,7 @@
             "patterns": [
                 {
                     "name": "variable.parameter.simtalkv2",
-                    "match": "\\b[a-zA-Z]+[0-9a-zA-Z]*\\b"
+                    "match": "\\b([a-zA-Z]+[0-9a-zA-Z_]*)\\b"
                 }
             ]
         },
