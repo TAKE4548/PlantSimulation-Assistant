@@ -2,6 +2,13 @@ import * as http from "http";
 import { HttpRequestError } from "./exceptions";
 import { HTTPCommands } from "./httpCommands";
 
+const RequesterStatus = {  // eslint-disable-line @typescript-eslint/naming-convention
+  startup: 'startup',
+  idle: 'idle',
+  running: 'running',
+  error: 'error'
+} as const;
+export type RequesterStatus = typeof RequesterStatus[keyof typeof RequesterStatus];
 
 /**
  * PlantSimのHttpIFでリクエスト送るクラス
@@ -9,9 +16,14 @@ import { HTTPCommands } from "./httpCommands";
  * @param port PlantSimエンドポイントのPort番号,(default:30001).
  */
 export class PlantSimRequester {
-  private polling: NodeJS.Timeout | undefined;
-  private timeoutObserver: NodeJS.Timeout | undefined;
-  constructor(private port: number = 30001) {}
+  private polling?: NodeJS.Timeout;
+  private timeoutObserver?: NodeJS.Timeout;
+  private status: RequesterStatus = RequesterStatus.startup;
+  constructor(private port: number = 30001) { this.status = RequesterStatus.idle; }
+
+  public isIdling(): boolean { return this.status === RequesterStatus.idle; }
+  public isErrored(): boolean { return this.status === RequesterStatus.error; }
+  public isRunning(): boolean { return this.status === RequesterStatus.running; }
 
   /**
    * サーバモードで起動中のPlantSimでモデルファイルを開く.
@@ -41,7 +53,14 @@ export class PlantSimRequester {
    * @param timeout タイムアウトの時間[ms],(default:10000).
    */
   public async tryRequest(cmd: string, timeout: number = 10000) {
-    await Promise.race([this.observeRequest(timeout), this.sendRequest(cmd, 5000)]).catch((e) => {throw e;});
+    this.status = RequesterStatus.running;
+    await Promise.race(
+      [this.observeRequest(timeout), this.sendRequest(cmd, 5000)]
+    ).then(
+      () => { this.status = RequesterStatus.idle; }
+    ).catch(
+      (e) => { this.status = RequesterStatus.error; throw e; }
+    );
   }
 
   /**
@@ -67,18 +86,25 @@ export class PlantSimRequester {
    * @param cmd PlantSimのhttpIF用コマンド文字列.
    * @param delay リクエストの試行間隔[ms].
    */
-  private sendRequest(cmd: string, delay: number): Promise<boolean> {
-    return new Promise((resolve) => {
+  private sendRequest(cmd: string, delay: number): Promise<void> {
+    const promise = new Promise((resolve) => {
       this.polling = setTimeout(() => {
-        let succeeded: boolean = false;
         console.log(cmd);
         http.get(`http://localhost:${this.port}/${cmd}`, (res) => {
-          if (res.statusCode === 200) { succeeded = true; }
-        }).on('error', (e) => { console.log(e); });
-        // 成功するまで再度試行する
-        if (succeeded) { resolve(succeeded); }
-        else { this.sendRequest(cmd, delay); }
+          resolve(res.statusCode === 200);
+        }).on('error', (e) => {
+          console.log(e);
+          resolve(false);
+        });
       }, delay);
+    });
+
+    return new Promise((resolve) => {
+      promise.then((result) => {
+        console.log(result);
+        if (result) { resolve(); }
+        else { this.sendRequest(cmd, delay).then(() => { resolve(); }); };
+      });
     });
   }
 }

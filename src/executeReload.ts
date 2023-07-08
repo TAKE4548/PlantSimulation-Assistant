@@ -20,6 +20,7 @@ export class PlantSimLoader {
         console.log(value[0]);
         const path = require('path');
         this.modelFile = path.relative(PlantSimLoader.plantsimPath, value[0].fsPath);
+        this.modelFile = 'hoge.spp';
         console.log(this.modelFile);
     });
     console.log("hoge");
@@ -44,6 +45,7 @@ export class PlantSimLoader {
       try { await requester.tryCallMethod('.Models.autoexec', 30000); }
       catch(e) { this.assortHttpException(e, "Method execute failed."); }
     }
+    if (!requester.isErrored()) { vscode.window.showInformationMessage('Reload complete.'); }
   }
 
   /**
