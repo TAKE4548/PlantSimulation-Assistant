@@ -10,28 +10,46 @@ import { PlantSimRequester } from './pollingRequest';
  * @property pid 起動中のPlantSimプロセスID.
  */
 export class PlantSimLoader {
-  static readonly plantsimPath: string = 'C:\\Program Files\\Siemens\\Tecnomatix Plant Simulation 2201\\PlantSimulation.exe';
   private pid?: number;
-  private modelFile: string = '';
+  private constructor(
+    private plantsimPath: string,
+    private port: number,
+    private modelFile: string
+  ) {}
 
-  constructor() {
-    let files = vscode.workspace.findFiles("**/*.spp");
-    files.then((value) => {
-        this.modelFile = value[0].fsPath;
-        console.log(this.modelFile);
+  public static init = async () => {
+    const configs = vscode.workspace.getConfiguration("psimAssistant");
+    // 実行ファイルパスの取得
+    const psimPath: string | undefined = configs.get("psimPath");
+    if (psimPath === undefined) { throw new Error(`configuration 'psimPath' is not defined.`); }
+    // サーバモードのポート設定
+    const port: number = configs.get("port") ?? 30001;
+    // 対象モデルファイルの取得
+    var modelFile: string | undefined = configs.get("modelPath");
+    if (modelFile === undefined) { throw new Error(`configuration 'modelFile' is not defined.`); }
+    if (modelFile === '') { modelFile = await this.findModelFile(); }
+    return new this(psimPath, port, modelFile);
+  };
+
+  private static async findModelFile(): Promise<string> {
+    return vscode.window.showQuickPick(
+      vscode.workspace.findFiles("**/*.spp").then((files) => files.map((x => x.fsPath))),
+      { placeHolder: 'リンクするモデルファイルを選んでください' }
+    ).then((file) => {
+      if (file === undefined) { throw new Error("*.spp file is not found."); }
+      return file;
     });
-    console.log("hoge");
   }
 
   /**
    * 全メソッド更新用メソッドをモデル側で実行させるコマンドの本体
    */
   public async executeReload() {
-    const requester = new PlantSimRequester();
+    const requester = new PlantSimRequester(this.port);
 
     if (this.pid === undefined) {  // TODO: 初回以外にもpidが生きてるか確認を入れたい
       // PlantSimをサーバモードで起動
-      let proc = child_process.spawn(PlantSimLoader.plantsimPath, ['-WebServer']);
+      let proc = child_process.spawn(this.plantsimPath, ['-WebServer']);
       console.log(proc.pid);
       this.pid = proc.pid;
       // モデルファイルを開く, autoexecは自動で走るはず

@@ -19,7 +19,7 @@ export class PlantSimRequester {
   private polling?: NodeJS.Timeout;
   private timeoutObserver?: NodeJS.Timeout;
   private status: RequesterStatus = RequesterStatus.startup;
-  constructor(private port: number = 30001) { this.status = RequesterStatus.idle; }
+  constructor(private port: number) { this.status = RequesterStatus.idle; }
 
   public isIdling(): boolean { return this.status === RequesterStatus.idle; }
   public isErrored(): boolean { return this.status === RequesterStatus.error; }

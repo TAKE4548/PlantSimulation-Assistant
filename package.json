@@ -52,7 +52,29 @@
         "scopeName": "source.simtalk",
         "path": "./snippets/simtalkv2.snippet.json"
       }
-    ]
+    ],
+    "configuration": {
+        "title": "PlantSimAssistant",
+        "properties": {
+            "psimAssistant.psimPath": {
+                "type": "string",
+                "scope": "window",
+                "default": "C:\\Program Files\\Siemens\\Tecnomatix Plant Simulation 2201\\PlantSimulation.exe",
+                "description": "Execute file path of the PlantSimulation."
+            },
+            "psimAssistant.port": {
+                "type": "integer",
+                "scope": "window",
+                "default": 30001,
+                "description": "Port number for server mode of the PlantSimulation."
+            },
+            "psimAssistant.modelPath": {
+                "type": "string",
+                "scope": "window",
+                "description": "Model file path(.spp) for target by project."
+            }
+        }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run webpack",
