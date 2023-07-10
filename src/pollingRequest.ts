@@ -32,8 +32,7 @@ export class PlantSimRequester {
    * @param timeout タイムアウトの時間[ms],(default:10000).
    */
   public async tryLoadModel(path: string, timeout: number = 10000) {
-    await this.tryRequest(`${HTTPCommands.loadModel}:${path}`, timeout);
-    // console.log(`${HTTPCommands.loadModel}:${path}`);
+    await this.tryRequest(`${HTTPCommands.loadModel}:${path}`, timeout, 5000);
   }
 
   /**
@@ -52,10 +51,10 @@ export class PlantSimRequester {
    * @param cmd PlantSimのhttpIF用コマンド文字列.
    * @param timeout タイムアウトの時間[ms],(default:10000).
    */
-  public async tryRequest(cmd: string, timeout: number = 10000) {
+  public async tryRequest(cmd: string, timeout: number = 10000, delay: number = 0) {
     this.status = RequesterStatus.running;
     await Promise.race(
-      [this.observeRequest(timeout), this.sendRequest(cmd, 5000)]
+      [this.observeRequest(timeout), this.sendRequest(cmd, delay)]
     ).then(
       () => { this.status = RequesterStatus.idle; }
     ).catch(
@@ -90,7 +89,7 @@ export class PlantSimRequester {
     const promise = new Promise((resolve) => {
       this.polling = setTimeout(() => {
         console.log(cmd);
-        http.get(`http://localhost:${this.port}/${cmd}`, (res) => {
+        http.get(`http://localhost:${this.port}/${cmd}`, {insecureHTTPParser: true}, (res) => {
           resolve(res.statusCode === 200);
         }).on('error', (e) => {
           console.log(e);
@@ -101,9 +100,8 @@ export class PlantSimRequester {
 
     return new Promise((resolve) => {
       promise.then((result) => {
-        console.log(result);
         if (result) { resolve(); }
-        else { this.sendRequest(cmd, delay).then(() => { resolve(); }); };
+        else { this.sendRequest(cmd, 5000).then(() => { resolve(); }); };
       });
     });
   }

@@ -17,10 +17,7 @@ export class PlantSimLoader {
   constructor() {
     let files = vscode.workspace.findFiles("**/*.spp");
     files.then((value) => {
-        console.log(value[0]);
-        const path = require('path');
-        this.modelFile = path.relative(PlantSimLoader.plantsimPath, value[0].fsPath);
-        this.modelFile = 'hoge.spp';
+        this.modelFile = value[0].fsPath;
         console.log(this.modelFile);
     });
     console.log("hoge");
