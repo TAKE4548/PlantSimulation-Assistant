@@ -10,7 +10,8 @@ import { PlantSimRequester } from './pollingRequest';
  * @property pid 起動中のPlantSimプロセスID.
  */
 export class PlantSimLoader {
-  private pid?: number;
+  private static instance?: PlantSimLoader;
+  private cProc?: child_process.ChildProcess;
   private constructor(
     private plantsimPath: string,
     private port: number,
@@ -18,6 +19,7 @@ export class PlantSimLoader {
   ) {}
 
   public static init = async () => {
+    if (PlantSimLoader.instance !== undefined) { return PlantSimLoader.instance; }
     const configs = vscode.workspace.getConfiguration("psimAssistant");
     // 実行ファイルパスの取得
     const psimPath: string | undefined = configs.get("psimPath");
@@ -28,7 +30,8 @@ export class PlantSimLoader {
     var modelFile: string | undefined = configs.get("modelPath");
     if (modelFile === undefined) { throw new Error(`configuration 'modelFile' is not defined.`); }
     if (modelFile === '') { modelFile = await this.findModelFile(); }
-    return new this(psimPath, port, modelFile);
+    PlantSimLoader.instance = new this(psimPath, port, modelFile);
+    return PlantSimLoader.instance;
   };
 
   private static async findModelFile(): Promise<string> {
@@ -47,11 +50,10 @@ export class PlantSimLoader {
   public async executeReload() {
     const requester = new PlantSimRequester(this.port);
 
-    if (this.pid === undefined) {  // TODO: 初回以外にもpidが生きてるか確認を入れたい
+    if (this.cProc === undefined) {  // TODO: 初回以外にもpidが生きてるか確認を入れたい
       // PlantSimをサーバモードで起動
-      let proc = child_process.spawn(this.plantsimPath, ['-WebServer']);
-      console.log(proc.pid);
-      this.pid = proc.pid;
+      this.cProc = child_process.spawn(this.plantsimPath, ['-WebServer']);
+      this.cProc.on("exit", () => this.cProc = undefined);
       // モデルファイルを開く, autoexecは自動で走るはず
       try { await requester.tryLoadModel(this.modelFile, 30000); }
       catch(e) { this.assortHttpException(e, "Model open failed."); }
