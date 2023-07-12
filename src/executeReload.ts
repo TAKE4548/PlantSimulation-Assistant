@@ -11,7 +11,6 @@ import { PlantSimRequester } from './pollingRequest';
  */
 export class PlantSimLoader {
   private static instance?: PlantSimLoader;
-  private cProc?: child_process.ChildProcess;
   private constructor(
     private plantsimPath: string,
     private port: number,
@@ -50,17 +49,16 @@ export class PlantSimLoader {
   public async executeReload() {
     const requester = new PlantSimRequester(this.port);
 
-    if (this.cProc === undefined) {  // TODO: 初回以外にもpidが生きてるか確認を入れたい
-      // PlantSimをサーバモードで起動
-      this.cProc = child_process.spawn(this.plantsimPath, ['-WebServer']);
-      this.cProc.on("exit", () => this.cProc = undefined);
-      // モデルファイルを開く, autoexecは自動で走るはず
-      try { await requester.tryLoadModel(this.modelFile, 30000); }
-      catch(e) { this.assortHttpException(e, "Model open failed."); }
-    } else {
+    if (await requester.isListening()) {
       // モデルが起動済みならautoexecを再実行させる
       try { await requester.tryCallMethod('.Models.autoexec', 30000); }
       catch(e) { this.assortHttpException(e, "Method execute failed."); }
+    } else {
+      // PlantSimをサーバモードで起動
+      child_process.spawn(this.plantsimPath, ['-WebServer']);
+      // モデルファイルを開く, autoexecは自動で走るはず
+      try { await requester.tryLoadModel(this.modelFile, 30000); }
+      catch(e) { this.assortHttpException(e, "Model open failed."); }
     }
     if (!requester.isErrored()) { vscode.window.showInformationMessage('Reload complete.'); }
   }

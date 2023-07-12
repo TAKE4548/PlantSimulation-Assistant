@@ -25,6 +25,11 @@ export class PlantSimRequester {
   public isErrored(): boolean { return this.status === RequesterStatus.error; }
   public isRunning(): boolean { return this.status === RequesterStatus.running; }
 
+  public async isListening(): Promise<boolean> {
+    try { await this.tryRequest(''); }
+    catch(e) { return false; }
+    return true;
+  }
   /**
    * サーバモードで起動中のPlantSimでモデルファイルを開く.
    *
