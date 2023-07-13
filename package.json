@@ -76,6 +76,12 @@
                 "type": "string",
                 "scope": "window",
                 "description": "Model file path(.spp) for target by project."
+            },
+            "psimAssistant.prjDir": {
+                "type": "string",
+                "scope": "window",
+                "default": "./",
+                "description": "Directory path for the this assistant."
             }
         }
     }

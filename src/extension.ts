@@ -25,6 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.updateReloadMethod', build));
 	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.executeReload', deploy));
 	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.updateMethods', buildAndDeploy));
+	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.createProject', createProject));
 }
 
 
