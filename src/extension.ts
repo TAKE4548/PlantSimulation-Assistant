@@ -15,12 +15,17 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.updateReloadMethod', updateReloadMethods));
-	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.executeReload', async () => {
+  var build = updateReloadMethods;
+  var deploy = async () => {
     var simLoader = await PlantSimLoader.init();
     simLoader.executeReload();
-  }));
+  };
+  var buildAndDeploy = async () => build().then(() => deploy());
+	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.updateReloadMethod', build));
+	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.executeReload', deploy));
+	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.updateMethods', buildAndDeploy));
 }
+
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
