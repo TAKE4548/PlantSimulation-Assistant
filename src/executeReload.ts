@@ -55,7 +55,7 @@ export class PlantSimLoader {
       catch(e) { this.assortHttpException(e, "Method execute failed."); }
     } else {
       // PlantSimをサーバモードで起動
-      child_process.spawn(this.plantsimPath, ['-WebServer']);
+      child_process.spawn(this.plantsimPath, [`-WebServer:${this.port}`]);
       // モデルファイルを開く, autoexecは自動で走るはず
       try { await requester.tryLoadModel(this.modelFile, 30000); }
       catch(e) { this.assortHttpException(e, "Model open failed."); }

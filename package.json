@@ -15,15 +15,15 @@
     "commands": [
       {
         "command": "plantsim-assistant.updateReloadMethod",
-        "title": "Update Reload Method"
+        "title": "Build"
       },
       {
         "command": "plantsim-assistant.executeReload",
-        "title": "Execute Reload"
+        "title": "Deploy"
       },
       {
         "command": "plantsim-assistant.createProject",
-        "title": "Create initialized assistant project"
+        "title": "Init"
       }
     ],
     "languages": [
