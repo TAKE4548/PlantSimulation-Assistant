@@ -3,14 +3,14 @@ import * as vscode from 'vscode';
 
 /**
  * 全メソッド更新用のメソッドのソースファイルを生成するコマンドの本体
- * 
+ *
  */
-export function updateReloadMethods() {
+export async function updateReloadMethods() {
   let files = vscode.workspace.findFiles("src/**/*.simtalk");
   const UPDATE_FILE = "reload_methods.simtalk";
   // .simtalkファイルをload関数に反映させる
   let writeText: string = "";
-  files.then((value) => {
+  await files.then((value) => {
     for (let val of value) {
       const RELATIVE_PATH = vscode.workspace.asRelativePath(val.path);
       const SPLITTED_PATH = RELATIVE_PATH.split('/');

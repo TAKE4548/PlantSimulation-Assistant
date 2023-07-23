@@ -22,6 +22,10 @@
         "title": "Deploy"
       },
       {
+        "command": "plantsim-assistant.updateMethods",
+        "title": "Build & Deploy"
+      },
+      {
         "command": "plantsim-assistant.createProject",
         "title": "Init"
       }
