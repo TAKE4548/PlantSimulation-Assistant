@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import { PlantSimLoader } from "./executeReload";
+import { createProject } from "./createProject";
 import { updateReloadMethods } from "./updateReloadMethods";
 
 // This method is called when your extension is activated
@@ -24,6 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.updateReloadMethod', build));
 	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.executeReload', deploy));
 	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.updateMethods', buildAndDeploy));
+	context.subscriptions.push(vscode.commands.registerCommand('plantsim-assistant.createProject', createProject));
 }
 
 
